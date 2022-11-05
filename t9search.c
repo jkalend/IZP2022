@@ -18,9 +18,9 @@ int check_number(const char *number) {
 
 void check_correct(const char *search, const char *name, const char *number, int *print) {
     char check[202] = {0};
-    strlcpy(check, name, 201);
-    strlcat(check, " ", 201);
-    strlcat(check, number, 201);
+    strncpy(check, name, 201);
+    strncat(check, " ", 201);
+    strncat(check, number, 201);
     unsigned long length = strlen(check);
 
     for (int i = 0; i < length; i++) {
@@ -92,7 +92,7 @@ int main(int argc, char *argv[]) {
         line[strlen(line) - 1] = 0;
 
         if (contact[0] == 0) {
-            strlcpy(contact, line, 101);
+            strncpy(contact, line, 101);
         } else {
             if (all) {
                 printf("%s, %s\n", contact, line);
