@@ -3,15 +3,12 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-
 int check_number(const char *number) {
     char *check = NULL;
     if (*number == '0' && strlen(number) == 1) {
         return 0;
     }
-    if (strtol(number, &check, 10) == 0) {
-        return 1;
-    }
+    strtoull(number, &check, 10);
     if (*check != '\0') {
         return 1;
     }
@@ -19,22 +16,13 @@ int check_number(const char *number) {
     return 0;
 }
 
-void check_correct(const char *search, const char *string, const char *string2, int *print) {
-    char check[201] = {0};
-    strlcpy(check, string, 201);
-    //const char *number = strrchr(check, '\0');
+void check_correct(const char *search, const char *name, const char *number, int *print) {
+    char check[202] = {0};
+    strlcpy(check, name, 201);
     strlcat(check, " ", 201);
-    strlcat(check, string2, 201);
+    strlcat(check, number, 201);
     unsigned long length = strlen(check);
 
-//    if (strstr(string2, search) != NULL) {
-//        if (*print == 0) {
-//            printf("Kontakt(y) nalezen(y)\n");
-//        }
-//        printf("%s, %s\n", string, string2);
-//        *print = 1;
-//        return;
-//    }
     for (int i = 0; i < length; i++) {
         check[i] = (char) tolower(check[i]);
         switch (check[i]) {
@@ -71,10 +59,7 @@ void check_correct(const char *search, const char *string, const char *string2, 
     }
 
     if (strstr(check, search) != NULL) {
-//        if (*print == 0) {
-//            printf("Kontakt(y) nalezen(y)\n");
-//        }
-        printf("%s, %s\n", string, string2);
+        printf("%s, %s\n", name, number);
         *print = 1;
     }
 }
@@ -100,8 +85,8 @@ int main(int argc, char *argv[]) {
         if (isspace(line[0])) {
             continue;
         }
-        if (line[101] != 0) {
-            fprintf(stderr, "Error: Contact is too long");
+        if (line[100] != '\n' && strlen(line) == 101) {
+            fprintf(stderr, "Error: Contact is too long\n");
             return 1;
         }
         line[strlen(line) - 1] = 0;
@@ -110,9 +95,6 @@ int main(int argc, char *argv[]) {
             strlcpy(contact, line, 101);
         } else {
             if (all) {
-//                if (print == 0) {
-//                    printf("Kontakt(y) nalezen(y)\n");
-//                }
                 printf("%s, %s\n", contact, line);
                 print = 1;
                 contact[0] = 0;
